@@ -193,21 +193,6 @@ const HomeworkChat: React.FC = () => {
     }, [history.length, isOpenChat]);
 
     useEffect(() => {
-        if (file.progress === 100) {
-            setHistory((prev) => [
-                ...prev,
-                { type: 'bot', message: activeQuestion.message },
-                { type: 'my', message: 'Хочу отправить задание на проверку' },
-            ]);
-            setActiveQuestion({
-                type: 'simple',
-                message:
-                    '**Ваше задание успешно отправлено на проверку системы.**\n\nНеобходимы ли дополнительные действия?',
-            });
-        }
-    }, [file.progress]);
-
-    useEffect(() => {
         if (file.success && result) {
             setHistory((prev) => [
                 ...prev,

@@ -1,8 +1,8 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { interceptedBaseQuery } from './interceptedBaseQuery';
 
-export const authApi = createApi({
-    reducerPath: 'authApi',
+export const chatApi = createApi({
+    reducerPath: 'chatApi',
     baseQuery: interceptedBaseQuery,
     endpoints: (builder) => ({
         askQuestion: builder.mutation<{ answer: string }, { question: string }>(
@@ -17,4 +17,4 @@ export const authApi = createApi({
     }),
 });
 
-export const { useAskQuestionMutation } = authApi;
+export const { useAskQuestionMutation } = chatApi;
