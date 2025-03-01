@@ -1,0 +1,33 @@
+{
+  "criteria": [
+    {
+      "type": "text",
+      "description": "Использование терминов Agile",
+      "validation_rules": [
+        {
+          "type": "keyword_check",
+          "max_value": 4,
+          "params": {
+            "keywords": ["спринт", "бэклог", "стейкхолдер"],
+            "min_count": 4
+          }
+        },
+        {
+          "type": "grammar_check",
+          "max_value": 3,
+          "params": {
+            "level": "C1",
+            "ignore_typos": true
+          }
+        },
+        {
+          "type": "structure_match",
+          "max_value": 3,
+          "params": {
+            "sections": ["intro", "body", "conclusion"]
+          }
+        }
+      ]
+    }
+]
+}
