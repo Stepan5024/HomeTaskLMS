@@ -348,9 +348,13 @@ const HomeworkChat: React.FC = () => {
 
     const handleUseExample = async () => {
         try {
-            const response = await fetch('../../../assets/demo/example.mp4');
+            const response = await fetch('/assets/example.mp4');
+
             const blob = await response.blob();
+            console.log(blob);
             const file = new File([blob], 'example.mp4', { type: blob.type });
+
+            console.log(file);
 
             if (file) {
                 dispatch(
