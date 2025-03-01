@@ -1,27 +1,40 @@
 from ai_connection import GPTModel
+import moviepy
 import json
 import nemo.collections.asr as nemo_asr
+import os
 
+#print(torch.version.cuda)
+
+UPLOAD_DIR = "videos"
 gpt_model = GPTModel()
-def speech_to_text():
-    asr_model = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained("nvidia/stt_ru_conformer_transducer_large")
-    output = asr_model.transcribe(['sample.wav'])
-    print(output[0].text)
+
+def process_checking(filename: str) -> str:
+    # Преобразовываем в текст
+    text = speech_to_text(f"videos/{filename}")
+
+    # Проверяем дз
+    check_result = check_homework(text)
+    return check_result
+
+# Нейросеть по транскрибации
+def speech_to_text(path: str) -> str:
+    asr_model = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained("nvidia/stt_ru_conformer_transducer_large") # Аналог stt_en_conformer_ctc_large
+    output = asr_model.transcribe([path])
+    return output[0][0]
 
 
-def check_homework(homework: str):
-    # Отправляем проверку дз в гпт
-    # Сохраняем в бд результаты проверки
-    # Отправлем ответ пользователю
-
-    with open("database/criterias.json", "r", encoding="utf-8") as file:
+# Проверка домашнего задания, текст
+def check_homework(student_answer: str) -> str:
+    # Запрос данных
+    with open("2-POST criteria.json", "r", encoding="utf-8") as file:
         criterias = json.load(file)
-    with open("database/exemplars.json", "r", encoding="utf-8") as file:
+    with open("3-POST Examplars.json", "r", encoding="utf-8") as file:
         exemplars = json.load(file)
-    student_answer = "Agile — это методология, которая помогает управлять проектами. Мы начали с планирования спринта, где посмотрели задачи в бэклоге. Стейкхолдеры были не очень активны, но мы все равно смогли закончить спринт. В конце мы провели встречу, чтобы обсудить результаты. В будущем нужно больше вовлекать стейкхолдеров."
-    answer = gpt_model.request_to_check_homework(str(criterias), str(exemplars), student_answer)
-    print(answer)
-    with open("database/student_results.json", "a", encoding="utf-8") as result_file:
-        result_file.write(answer)
+    with open("1-GET Feedback.json", "r", encoding="utf-8") as file:
+        feedback = json.load(file)
+    answer = gpt_model.request_to_check_homework(str(criterias), str(exemplars), str(feedback), student_answer)
+    return answer
 
-speech_to_text()
+def ask_gpt(text: str):
+    return gpt_model.ask_gpt(text)
