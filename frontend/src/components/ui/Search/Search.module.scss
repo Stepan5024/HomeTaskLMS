@@ -1,0 +1,44 @@
+@use '@/vars/fonts' as f;
+@use '@/vars/colors' as c;
+
+.searchContainer {
+    display: flex;
+    align-items: center;
+    border: 1px solid c.$main-tertiary;
+    border-radius: 20px;
+    padding: 0 16px;
+    height: 40px;
+    gap: 16px;
+    transition: border-color 0.1s ease-in;
+    &:hover {
+        border-color: c.$main-secondary;
+
+        .input::placeholder {
+            color: c.$main-secondary;
+        }
+    }
+
+    &.focused {
+        border-color: c.$accent-primary;
+    }
+
+    .input {
+        width: 100%;
+        font: f.$control-l;
+        border: none;
+        outline: none;
+        color: c.$text-primary;
+    }
+
+    .inputWrapper {
+        width: 100%;
+    }
+
+    .input::placeholder {
+        color: c.$main-tertiary;
+    }
+
+    &.fullWidth {
+        width: 100%;
+    }
+}

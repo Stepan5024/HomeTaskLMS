@@ -1,0 +1,10 @@
+@use '@/vars/colors' as c;
+
+.header {
+    height: 75px;
+    background-color: c.$main-background;
+    padding: 21px 16px 16px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
