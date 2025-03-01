@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import s from './Student.module.scss';
 import HomeworkChat from './components/HomeworkChat/HomeworkChat';
 

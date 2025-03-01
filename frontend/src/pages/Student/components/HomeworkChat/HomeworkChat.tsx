@@ -8,6 +8,7 @@ import { RootState } from '@/redux/store';
 import { uploadVideo } from '@/redux/slices/upload.slice';
 import { useAppDispatch } from '@/redux/hooks/useAppDispatch';
 import ProgressBar from '@/components/ui/ProgressBar/ProgressBar';
+import { useAskQuestionMutation } from '@/redux/api/chat.api';
 
 const text1 =
     '**Добро пожаловать в систему сдачи домашних заданий Adapstory.**\n1. После каждого урока вы будете получать задания, которые помогут закрепить изученный материал\n2. Выполняйте задания в удобное для вас время\n3. Загружайте готовые работы через эту систем';
@@ -15,6 +16,8 @@ const text1 =
 const text2 =
     '**Курс: «Русский язык на рабочем месте»**\n\n**Урок: 1.1. Приветствие**';
 
+const homeworkTask =
+    '**Домашнее задание: Видео-приветствие**\n\n**Уровень: B1 Тема: Приветствие и знакомство**\n\n**Задание:**\n\n1) Подготовьте короткое видео (2-3 минуты), где вы:\n   - Приветствуете своих коллег\n   - Представляете себя\n   - Рассказываете о своей роли на предприятии\n\n2) Структура вашей речи должна включать:\n   - Приветствие\n   - Ваше имя и фамилия\n   - Ваша должность или роль на объекте\n   - Опыт работы в строительстве (кратко)\n   - Что вы хотите узнать о новом месте работы\n\n3) Оценочные критерии:\n   - Использование слов и выражений из урока\n   - Правильное произношение\n   - Грамматическая точность\n\n4) Требования к видео:\n   - Хорошее качество звука\n   - Формат файла с видео: .mp4\n   - Размер: не более 50 МБ\n\nСрок сдачи: **03 марта 2025**';
 const MiniLogoIcon = () => {
     return (
         <svg
@@ -133,11 +136,12 @@ const HomeworkChat: React.FC = () => {
             | 'simple'
             | 'uploaded'
             | 'uploading'
-            | 'result';
+            | 'result'
+            | 'asking';
         message: string;
     }>({
         type: 'homework',
-        message: '**Test**',
+        message: homeworkTask,
     });
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -145,7 +149,17 @@ const HomeworkChat: React.FC = () => {
     const [isFocused, setIsFocused] = useState(false);
     const [answer, setAnswer] = useState('');
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    const { file } = useSelector((state: RootState) => state.uploadSlice);
+    const { file, result } = useSelector(
+        (state: RootState) => state.uploadSlice
+    );
+    const [
+        askQuestion,
+        {
+            data: askQuestionData,
+            isLoading: isAskQuestionLoading,
+            isSuccess: isAskQuestionSuccess,
+        },
+    ] = useAskQuestionMutation();
 
     const dispatch = useAppDispatch();
 
@@ -179,7 +193,7 @@ const HomeworkChat: React.FC = () => {
     }, [history.length, isOpenChat]);
 
     useEffect(() => {
-        if (file.success) {
+        if (file.progress === 100) {
             setHistory((prev) => [
                 ...prev,
                 { type: 'bot', message: activeQuestion.message },
@@ -191,7 +205,42 @@ const HomeworkChat: React.FC = () => {
                     '**Ваше задание успешно отправлено на проверку системы.**\n\nНеобходимы ли дополнительные действия?',
             });
         }
-    }, [file.success]);
+    }, [file.progress]);
+
+    useEffect(() => {
+        if (file.success && result) {
+            setHistory((prev) => [
+                ...prev,
+                { type: 'bot', message: activeQuestion.message },
+            ]);
+            setActiveQuestion({
+                type: 'result',
+                message: `${result?.MD_FILE}\n\n${result?.result}`,
+            });
+        }
+    }, [file.success, result]);
+
+    useEffect(() => {
+        if (isAskQuestionLoading) {
+            setHistory((prev) => [
+                ...prev,
+                { type: 'bot', message: activeQuestion.message },
+            ]);
+            setActiveQuestion({
+                type: 'asking',
+                message: `Думаем...`,
+            });
+        }
+    }, [isAskQuestionLoading]);
+
+    useEffect(() => {
+        if (isAskQuestionSuccess) {
+            setActiveQuestion({
+                type: 'simple',
+                message: `${askQuestionData.answer}`,
+            });
+        }
+    }, [isAskQuestionSuccess]);
 
     function bytesToMB(bytes: number): string {
         return (bytes / (1024 * 1024)).toFixed(1) + ' мб.';
@@ -224,6 +273,8 @@ const HomeworkChat: React.FC = () => {
                 message:
                     '**Ваш вопрос отправлен. Ожидайте ответа**\n\nНеобходимы ли дополнительные действия?',
             });
+
+            askQuestion({ question: answer });
         }
     };
 

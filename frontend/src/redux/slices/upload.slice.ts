@@ -9,6 +9,11 @@ interface VideoState {
         success: boolean;
         progress: number;
     };
+    result: {
+        code: number | null;
+        MD_FILE: string | null;
+        result: string | null;
+    };
 }
 
 const initialState: VideoState = {
@@ -18,18 +23,27 @@ const initialState: VideoState = {
         success: false,
         progress: 0,
     },
+    result: {
+        code: null,
+        MD_FILE: null,
+        result: null,
+    },
 };
 
 export const uploadVideo = createAsyncThunk<
-    void,
-    { file: File }, // Обновили тут
+    { code: number; MD_FILE: string; result: string },
+    { file: File },
     { rejectValue: string; state: RootState }
 >('video/upload', async ({ file }, { dispatch, rejectWithValue }) => {
     const formData = new FormData();
     formData.append('file', file);
 
     try {
-        await axios.post('/api/v1/homework/upload_file', formData, {
+        const response = await axios.post<{
+            code: number;
+            MD_FILE: string;
+            result: string;
+        }>('/api/v1/homework/upload_file', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
             onUploadProgress: (progressEvent) => {
                 const percent = Math.round(
@@ -40,6 +54,8 @@ export const uploadVideo = createAsyncThunk<
         });
 
         dispatch(setProgress(100));
+
+        return response.data;
     } catch (error: any) {
         return rejectWithValue(error.message);
     }
@@ -66,10 +82,23 @@ export const uploadSlice = createSlice({
                 state.file.success = false;
                 state.file.progress = 0;
             })
-            .addCase(uploadVideo.fulfilled, (state) => {
-                state.file.loading = false;
-                state.file.success = true;
-            })
+            .addCase(
+                uploadVideo.fulfilled,
+                (
+                    state,
+                    action: PayloadAction<{
+                        code: number;
+                        MD_FILE: string;
+                        result: string;
+                    }>
+                ) => {
+                    state.file.loading = false;
+                    state.file.success = true;
+                    state.result.MD_FILE = action.payload.MD_FILE;
+                    state.result.result = action.payload.result;
+                    state.result.code = action.payload.code;
+                }
+            )
             .addCase(
                 uploadVideo.rejected,
                 (state, action: PayloadAction<any>) => {
