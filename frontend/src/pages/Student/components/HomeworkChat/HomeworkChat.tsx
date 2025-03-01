@@ -1,5 +1,5 @@
 import { Button, Header, SendIcon } from '@/components/ui';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import s from './HomeworkChat.module.scss';
 import { marked } from 'marked';
 import Dropzone from '@/components/ui/Dropzone/Dropzone';
@@ -182,14 +182,14 @@ const HomeworkChat: React.FC = () => {
         }
     }, [textareaRef, activeQuestion.type]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (isOpenChat)
             setTimeout(() => {
                 if (messagesRef.current) {
                     messagesRef.current.scrollTop =
                         messagesRef.current.scrollHeight;
                 }
-            }, 100);
+            }, 0);
     }, [history.length, isOpenChat]);
 
     useEffect(() => {
@@ -362,6 +362,19 @@ const HomeworkChat: React.FC = () => {
         }
     };
 
+    const handleShowTrans = () => {
+        if (activeQuestion) {
+            setHistory((prev) => [
+                ...prev,
+                { type: 'bot', message: activeQuestion.message },
+            ]);
+            setActiveQuestion({
+                type: 'simple',
+                message: `${result.transcription}`,
+            });
+        }
+    };
+
     return (
         <div className={s.container}>
             {isOpenChat && (
@@ -446,11 +459,6 @@ const HomeworkChat: React.FC = () => {
                                             />
                                         )}
                                     <div className={s.options}>
-                                        {activeQuestion.type === 'homework' && (
-                                            <Button>
-                                                Посмотреть пример задания
-                                            </Button>
-                                        )}
                                         {selectedFile &&
                                             activeQuestion.type ===
                                                 'simple' && (
@@ -462,7 +470,6 @@ const HomeworkChat: React.FC = () => {
                                                     Вернуть задание на доработку
                                                 </Button>
                                             )}
-
                                         {selectedFile &&
                                             activeQuestion.type ===
                                                 'uploaded' && (
@@ -513,6 +520,11 @@ const HomeworkChat: React.FC = () => {
                                             <Button onClick={handleUseExample}>
                                                 Использовать готовый пример
                                                 (нажми, если нет видео)
+                                            </Button>
+                                        )}
+                                        {activeQuestion.type === 'result' && (
+                                            <Button onClick={handleShowTrans}>
+                                                Показать транскрибацию
                                             </Button>
                                         )}
                                     </div>

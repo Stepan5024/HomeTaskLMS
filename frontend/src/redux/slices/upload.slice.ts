@@ -13,6 +13,7 @@ interface VideoState {
         code: number | null;
         MD_FILE: string | null;
         result: string | null;
+        transcription: string | null;
     };
 }
 
@@ -27,11 +28,12 @@ const initialState: VideoState = {
         code: null,
         MD_FILE: null,
         result: null,
+        transcription: null,
     },
 };
 
 export const uploadVideo = createAsyncThunk<
-    { code: number; MD_FILE: string; result: string },
+    { code: number; MD_FILE: string; result: string; transcription: string },
     { file: File },
     { rejectValue: string; state: RootState }
 >('video/upload', async ({ file }, { dispatch, rejectWithValue }) => {
@@ -43,6 +45,7 @@ export const uploadVideo = createAsyncThunk<
             code: number;
             MD_FILE: string;
             result: string;
+            transcription: string;
         }>('/api/v1/homework/upload_file', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
             onUploadProgress: (progressEvent) => {
@@ -90,6 +93,7 @@ export const uploadSlice = createSlice({
                         code: number;
                         MD_FILE: string;
                         result: string;
+                        transcription: string;
                     }>
                 ) => {
                     state.file.loading = false;
@@ -97,6 +101,7 @@ export const uploadSlice = createSlice({
                     state.result.MD_FILE = action.payload.MD_FILE;
                     state.result.result = action.payload.result;
                     state.result.code = action.payload.code;
+                    state.result.transcription = action.payload.transcription;
                 }
             )
             .addCase(
