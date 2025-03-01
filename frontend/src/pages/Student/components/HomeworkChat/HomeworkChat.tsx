@@ -296,8 +296,6 @@ const HomeworkChat: React.FC = () => {
             dispatch(
                 uploadVideo({
                     file: selectedFile,
-                    lessonId: '123',
-                    courseId: '123',
                 })
             );
         }

@@ -22,34 +22,28 @@ const initialState: VideoState = {
 
 export const uploadVideo = createAsyncThunk<
     void,
-    { file: File; lessonId: string; courseId: string }, // Обновили тут
+    { file: File }, // Обновили тут
     { rejectValue: string; state: RootState }
->(
-    'video/upload',
-    async ({ file, lessonId, courseId }, { dispatch, rejectWithValue }) => {
-        const formData = new FormData();
-        formData.append('video', file);
-        formData.append('lessonId', lessonId);
-        formData.append('courseId', courseId);
+>('video/upload', async ({ file }, { dispatch, rejectWithValue }) => {
+    const formData = new FormData();
+    formData.append('file', file);
 
-        try {
-            await axios.post('/api/v1/homework/upload_file', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-                onUploadProgress: (progressEvent) => {
-                    const percent = Math.round(
-                        (progressEvent.loaded * 100) /
-                            (progressEvent.total || 1)
-                    );
-                    dispatch(setProgress(percent));
-                },
-            });
+    try {
+        await axios.post('/api/v1/homework/upload_file', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+            onUploadProgress: (progressEvent) => {
+                const percent = Math.round(
+                    (progressEvent.loaded * 100) / (progressEvent.total || 1)
+                );
+                dispatch(setProgress(percent));
+            },
+        });
 
-            dispatch(setProgress(100));
-        } catch (error: any) {
-            return rejectWithValue(error.message);
-        }
+        dispatch(setProgress(100));
+    } catch (error: any) {
+        return rejectWithValue(error.message);
     }
-);
+});
 
 export const uploadSlice = createSlice({
     name: 'uploadSlice',
