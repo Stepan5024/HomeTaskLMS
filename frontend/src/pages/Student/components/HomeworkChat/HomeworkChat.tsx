@@ -346,6 +346,33 @@ const HomeworkChat: React.FC = () => {
         });
     };
 
+    const handleUseExample = async () => {
+        try {
+            const response = await fetch('../../../assets/demo/example.mp4');
+            const blob = await response.blob();
+            const file = new File([blob], 'example.mp4', { type: blob.type });
+
+            if (file) {
+                dispatch(
+                    uploadVideo({
+                        file: file,
+                    })
+                );
+            }
+            setHistory((prev) => [
+                ...prev,
+                { type: 'bot', message: activeQuestion.message },
+                { type: 'my', message: 'Хочу отправить задание на проверку' },
+            ]);
+            setActiveQuestion({
+                type: 'uploading',
+                message: '**Отправка файла**',
+            });
+        } catch (error) {
+            console.error('Ошибка загрузки файла:', error);
+        }
+    };
+
     return (
         <div className={s.container}>
             {isOpenChat && (
@@ -446,6 +473,7 @@ const HomeworkChat: React.FC = () => {
                                                     Вернуть задание на доработку
                                                 </Button>
                                             )}
+
                                         {selectedFile &&
                                             activeQuestion.type ===
                                                 'uploaded' && (
@@ -490,6 +518,12 @@ const HomeworkChat: React.FC = () => {
                                         {activeQuestion.type === 'homework' && (
                                             <Button onClick={handleClickUpload}>
                                                 Загрузить свое задание
+                                            </Button>
+                                        )}
+                                        {activeQuestion.type === 'upload' && (
+                                            <Button onClick={handleUseExample}>
+                                                Использовать готовый пример
+                                                (нажми, если нет видео)
                                             </Button>
                                         )}
                                     </div>
