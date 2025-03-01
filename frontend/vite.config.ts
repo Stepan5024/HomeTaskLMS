@@ -14,7 +14,7 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '/api': 'http://localhost:8000',
+            '/api': 'http://79.137.192.11:8000',
         },
     },
 });
