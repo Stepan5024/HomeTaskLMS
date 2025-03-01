@@ -1,0 +1,29 @@
+@use '@/vars/fonts' as f;
+
+.dropzone {
+    border: 2px dashed rgba(206, 243, 228, 1);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    background-color: rgba(206, 243, 228, 0.2);
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        border-color: #62c370;
+    }
+
+    &.active {
+        border-color: #62c370;
+        background-color: #e9f7ea;
+    }
+}
+
+.text {
+    color: #4a4a4a;
+    margin-top: 16px;
+    white-space: pre-line;
+    font: f.$caption-m;
+    font-size: 14px;
+    font-weight: 400;
+}

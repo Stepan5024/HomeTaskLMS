@@ -1,0 +1,77 @@
+@use '@/vars/fonts' as f;
+@use '@/vars/colors' as c;
+
+.button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 16px;
+    border-radius: 20px;
+    text-align: center;
+    justify-content: center;
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    min-width: 140px;
+    font: f.$control-l;
+
+    &.uppercase {
+        text-transform: uppercase;
+    }
+
+    &:disabled {
+        background-color: c.$disabled;
+        color: c.$text-disabled;
+        cursor: not-allowed;
+        pointer-events: none;
+        box-shadow: none;
+    }
+}
+
+.icon {
+    font-size: 20px;
+}
+
+/* Варианты кнопок */
+.default {
+    background-color: c.$accent-secondary;
+    color: c.$text-primary;
+
+    &:hover {
+        background-color: c.$accent-primary;
+    }
+
+    &:active {
+        background-color: c.$accent-tertiary;
+    }
+}
+
+.outline {
+    box-shadow: inset 0px 0px 0px 1px c.$main-primary;
+    color: #161616;
+    background: transparent;
+
+    &:hover {
+        box-shadow: none;
+        background-color: c.$main-tertiary;
+    }
+
+    &:active {
+        background-color: transparent;
+        box-shadow: inset 0px 0px 0px 1px c.$main-secondary;
+    }
+}
+
+.blank {
+    background: none;
+    color: c.$text-primary;
+
+    &:hover {
+        color: c.$accent-secondary;
+    }
+
+    &:active {
+        color: c.$accent-tertiary;
+    }
+}

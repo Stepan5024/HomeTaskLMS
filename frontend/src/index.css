@@ -1,0 +1,135 @@
+button {
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    cursor: pointer;
+    display: inline-flex;
+}
+
+/* Reset and base styles  */
+* {
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    box-sizing: border-box;
+}
+
+/* Links */
+a,
+a:link,
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* Common */
+
+aside,
+nav,
+footer,
+header,
+section,
+main {
+    display: block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+ul,
+ul li {
+    list-style: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+img,
+svg {
+    max-width: 100%;
+    height: auto;
+}
+
+address {
+    font-style: normal;
+}
+
+/* Form */
+
+input,
+textarea,
+button,
+select {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background-color: transparent;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+input:focus,
+input:active,
+textarea:focus,
+textarea:active,
+button:focus,
+button:active {
+    outline: none;
+}
+
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+label {
+    cursor: pointer;
+}
+
+legend {
+    display: block;
+}
+
+body {
+    font: 400 16px/24px 'Roboto', sans-serif;
+}
+
+h1 {
+    font: 800 40px/48px 'Roboto Condensed', sans-serif;
+}
+
+h2 {
+    font: 800 32px/40px 'Roboto Condensed', sans-serif;
+}
+
+h3 {
+    font: 800 28px/36px 'Roboto Condensed', sans-serif;
+}
+
+h4 {
+    font: 800 24px/32px 'Roboto Condensed', sans-serif;
+}
+
+h5 {
+    font: 800 22px/28px 'Roboto Condensed', sans-serif;
+}
+
+h6 {
+    font: 800 20px/26px 'Roboto Condensed', sans-serif;
+}
