@@ -354,24 +354,9 @@ const HomeworkChat: React.FC = () => {
             console.log(blob);
             const file = new File([blob], 'example.mp4', { type: blob.type });
 
-            console.log(file);
-
             if (file) {
-                dispatch(
-                    uploadVideo({
-                        file: file,
-                    })
-                );
+                handleFileSelect(file);
             }
-            setHistory((prev) => [
-                ...prev,
-                { type: 'bot', message: activeQuestion.message },
-                { type: 'my', message: 'Хочу отправить задание на проверку' },
-            ]);
-            setActiveQuestion({
-                type: 'uploading',
-                message: '**Отправка файла**',
-            });
         } catch (error) {
             console.error('Ошибка загрузки файла:', error);
         }
