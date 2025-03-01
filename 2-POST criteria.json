@@ -1,0 +1,87 @@
+{
+  "criteria": [
+    {
+      "type": "text",
+      "description": "Использование слов и выражений из урока и текста ответа",
+      "validation_rules": [
+        {
+          "type": "keyword_check",
+          "weight": 0.4,
+          "params": {
+            "keywords": [
+              "приветствие",
+              "должность",
+              "опыт работы"
+            ]
+          }
+        },
+        {
+          "type": "grammar_check",
+          "weight": 0.3,
+          "params": {
+            "level": "B1",
+            "ignore_typos": true
+          }
+        },
+        {
+          "type": "structure_match",
+          "weight": 0.3,
+          "params": {
+            "sections": [
+              "приветствие",
+              "имя и фамилия",
+              "должность",
+              "опыт работы",
+              "вопросы о новом месте",
+              "готовность к работе"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "video",
+      "description": "Правильное произношение и качество видео",
+      "validation_rules": [
+        {
+          "type": "pronunciation_check",
+          "weight": 0.4,
+          "params": {
+            "language": "ru",
+            "min_accuracy": 80
+          }
+        },
+        {
+          "type": "video_quality_check",
+          "weight": 0.3,
+          "params": {
+            "min_resolution": "480p",
+            "max_size_mb": 50,
+            "allowed_formats": ["mp4"]
+          }
+        },
+        {
+          "type": "speech_pace",
+          "weight": 0.3,
+          "params": {
+            "min_wpm": 100,
+            "max_wpm": 150
+          }
+        }
+      ]
+    },
+    {
+      "type": "deadline",
+      "description": "Соблюдение срока сдачи задания",
+      "validation_rules": [
+        {
+          "type": "date_check",
+          "weight": 1.0,
+          "params": {
+            "deadline": "2025-03-03T23:59:59Z"
+          }
+        }
+      ]
+    }
+  ]
+}
