@@ -21,15 +21,7 @@
           "params": {
             "expected_style": "официальный",
             "forbidden_words": ["сленг", "разговорные выражения"]
-          }
-        },
-        {
-          "type": "argument_check",
-          "weight": 0.2,
-          "params": {
-            "min_examples": 2,
-            "min_arguments": 3
-          }
+                }
         },
         {
           "type": "professional_vocabulary_check",
