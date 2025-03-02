@@ -38,37 +38,6 @@
           }
         }
       ]
-    },
-    {
-      "type": "video",
-      "description": "Правильное произношение и качество видео",
-      "validation_rules": [
-        {
-          "type": "pronunciation_check",
-          "weight": 0.4,
-          "params": {
-            "language": "ru",
-            "min_accuracy": 80
-          }
-        },
-        {
-          "type": "video_quality_check",
-          "weight": 0.3,
-          "params": {
-            "min_resolution": "480p",
-            "max_size_mb": 50,
-            "allowed_formats": ["mp4"]
-          }
-        },
-        {
-          "type": "speech_pace",
-          "weight": 0.3,
-          "params": {
-            "min_wpm": 100,
-            "max_wpm": 150
-          }
-        }
-      ]
     }
   ]
 }
