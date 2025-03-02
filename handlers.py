@@ -56,3 +56,7 @@ async def upload_video(file: UploadFile = File(...)):
 @router.post("/question")
 def question(question = Body()):
     return {"answer": ask_gpt(question['question'])}
+
+@router.get("/ping")
+def read_root():
+    return {"Hello": "World"}
