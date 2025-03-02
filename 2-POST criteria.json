@@ -16,11 +16,34 @@
           }
         },
         {
-          "type": "grammar_check",
-          "weight": 0.3,
+          "type": "style_check",
+          "weight": 0.2,
           "params": {
-            "level": "B1",
-            "ignore_typos": true
+            "expected_style": "официальный",
+            "forbidden_words": ["сленг", "разговорные выражения"]
+          }
+        },
+        {
+          "type": "argument_check",
+          "weight": 0.2,
+          "params": {
+            "min_examples": 2,
+            "min_arguments": 3
+          }
+        },
+        {
+          "type": "professional_vocabulary_check",
+          "weight": 0.2,
+          "params": {
+            "min_terms": 5
+          }
+        },
+        {
+          "type": "lexical_diversity",
+          "weight": 0.2,
+          "params": {
+            "min_unique_words": 20,
+            "synonym_usage": true
           }
         },
         {
