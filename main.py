@@ -19,6 +19,7 @@ allowed_origins = [
     "https://45.12.114.84",
     "http://45.12.114.84",
     r"http://123.123.123.1(:/d+)",
+    "https://79.137.192.11/student",
 ]
 
 app.add_middleware(
