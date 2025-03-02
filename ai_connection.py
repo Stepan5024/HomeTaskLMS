@@ -33,7 +33,7 @@ class GPTModel:
             md_file = self.make_md(criterias, rates)
             return {
             "code": -1,
-            "MD_FILE": rates,
+            "MD_FILE": md_file,
             "result": rates,
             "transcription": student_homework}# Отправляем преподу
 
