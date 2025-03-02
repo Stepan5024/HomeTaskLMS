@@ -69,19 +69,6 @@
           }
         }
       ]
-    },
-    {
-      "type": "deadline",
-      "description": "Соблюдение срока сдачи задания",
-      "validation_rules": [
-        {
-          "type": "date_check",
-          "weight": 1.0,
-          "params": {
-            "deadline": "2025-03-03T23:59:59Z"
-          }
-        }
-      ]
     }
   ]
 }
