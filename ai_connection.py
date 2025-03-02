@@ -34,7 +34,7 @@ class GPTModel:
             return {
             "code": -1,
             "MD_FILE": rates,
-            "result": None,
+            "result": rates,
             "transcription": student_homework}# Отправляем преподу
 
         # Итоговая оценка
